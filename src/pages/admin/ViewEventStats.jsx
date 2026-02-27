@@ -11,25 +11,23 @@ const ViewEventStats = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  
-  const fetchRegistrations = async () => {
-    try {
-      const { data } = await axios.get(
-        `/admin/event/${eventId}/registrations`
-      );
-      setRegistrations(data);
-    } catch {
-      toast.error("Failed to load registrations");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchRegistrations();
-  }, [eventId]);
+    const fetchRegistrations = async () => {
+      try {
+        const { data } = await axios.get(
+          `/admin/event/${eventId}/registrations`
+        );
+        setRegistrations(data);
+      } catch {
+        toast.error("Failed to load registrations");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  
+    fetchRegistrations();
+  }, [eventId]); // ✅ effect now only depends on eventId
+
   const filteredRegistrations = useMemo(() => {
     if (!search) return registrations;
 
@@ -43,7 +41,7 @@ const ViewEventStats = () => {
     );
   }, [search, registrations]);
 
-  
+  // Compute stats
   const stats = useMemo(() => {
     let totalRevenue = 0;
     let checkedIn = 0;
@@ -71,7 +69,7 @@ const ViewEventStats = () => {
     };
   }, [registrations]);
 
-  
+  // Download CSV function (unchanged)
   const downloadCSV = () => {
     if (filteredRegistrations.length === 0) {
       toast.info("No data to download");
@@ -116,7 +114,7 @@ const ViewEventStats = () => {
   return (
     <div className="min-h-screen bg-black px-6 py-10">
       <div className="max-w-7xl mx-auto">
-
+        {/* Header with back button */}
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={() => navigate(-1)}
@@ -140,7 +138,6 @@ const ViewEventStats = () => {
           <StatCard title="Total Revenue" value={`₹${stats.totalRevenue}`} color="green" />
         </div>
 
-        
         <div className="flex flex-wrap gap-4 mb-6 items-center">
           <input
             type="text"
@@ -160,7 +157,6 @@ const ViewEventStats = () => {
           </button>
         </div>
 
-       
         {filteredRegistrations.length === 0 ? (
           <p className="text-zinc-400">No registrations found.</p>
         ) : (

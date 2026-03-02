@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "/api",  
+  baseURL: "https://griet-hub-backend.onrender.com/api",  
 });
 
 instance.interceptors.request.use((config) => {

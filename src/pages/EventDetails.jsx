@@ -83,7 +83,7 @@ const EventDetails = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5002/api/payments/create-order/${event._id}`,
+        `https://griet-hub-backend.onrender.com/api/payments/create-order/${event._id}`,
         {
           method: "POST",
           headers: {
@@ -110,7 +110,7 @@ const EventDetails = () => {
         handler: async (response) => {
           try {
             const verifyRes = await fetch(
-              "http://localhost:5002/api/payments/verify",
+              "https://griet-hub-backend.onrender.com/api/payments/verify",
               {
                 method: "POST",
                 headers: {

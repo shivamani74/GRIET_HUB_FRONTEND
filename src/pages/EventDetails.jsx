@@ -101,7 +101,7 @@ const EventDetails = () => {
 
       const options = {
         key: order.razorpayKey,
-        amount: order.amount * 100,
+        amount: order.amount,
         currency: "INR",
         name: "GRIEThub",
         description: event.title,
